@@ -15,6 +15,19 @@ body {
 
 /* Styling for Header content */
 
+#view-scores {
+    color: #8A2BE2;
+    text-decoration: none;
+}
+
+#view-scores:hover {
+    color: #9370DB;
+}
+
+#view-scores:active {
+    color: #9400D3;
+}
+
 h1,
 p {
     text-align: center;
@@ -34,10 +47,6 @@ main {
 #start-button {
     display: block;
     margin: 0 auto;
-}
-
-#view-scores {
-    color: #8A2BE2;
 }
 
 
