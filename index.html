@@ -9,9 +9,41 @@
 <body>
     <header>
         <a href="#">View Highscores</a>
+        <span>Timer</span>
     </header>
+
     <main>
 
+        <section id="start-page">
+            <h1>Coding Quiz Challenge</h1>
+            <p>
+                Test your Javascript know-how by taking this Coding Quiz Challenge! Once you begin a timer will count down. 
+                The faster you can finish the higher score you can get, but be careful if you guess incorrectly the timer 
+                will decrease faster. Good Luck!
+            </p>
+            <button type="button">Start Quiz!</button>
+
+        </section>
+
+        <section id="question-page">
+            <h1 id="question"></h1>
+            <ul id="answers"></ul>
+            <h3 id="feedback"></h3>
+        </section>
+
+        <section id="initial-enter">
+            <h2>All done!</h2>
+            <h4>Your final score is: <span id="display-score"></span></h4>
+            <input type="text">
+            <button id="submit-initial">Submit</button>
+        </section>
+        <section id="highscore-page">
+            <h2>Highscores</h2>
+            <button id="go-back">Go Back</button>
+            <button id="clear-highscores">Clear Highscores</button>
+        </section>
+
     </main>
+
 </body>
 </html>
