@@ -20,18 +20,44 @@ let goBack = document.getElementById('go-back');
 let clearHighscores = document.getElementById('clear-highscores');
 
 startButton.addEventListener("click", startQuiz);
+submitInitial.addEventListener("click", openHighscorePage);
+goBack.addEventListener("click", openStartPage);
 
-let secondsLeft = 75;
+let quizTime = 10;
+let secondsLeft = quizTime;
 function startQuiz() {
-  var timerInterval = setInterval(function() {
-    
-    timer.textContent = "Time: " + secondsLeft;
-    secondsLeft--;
-    if(secondsLeft === 0) {
-      clearInterval(timerInterval);
-       
-    }
 
-  }, 1000);
+    startPage.classList.add('hide');
+    questionPage.classList.remove('hide');
+
+    let timerInterval = setInterval(function() {
+        secondsLeft--;
+
+        if(secondsLeft === 0) {
+            clearInterval(timerInterval);
+            openInitialsPage();
+            secondsLeft = quizTime;
+        }
+
+        timer.textContent = "Time: " + secondsLeft;
+        
+    }, 1000);
 }
+
+function openInitialsPage() {
+    questionPage.classList.add('hide');
+    intitialEnter.classList.remove('hide');
+}
+
+function openHighscorePage() {
+    intitialEnter.classList.add('hide');
+    highscorePage.classList.remove('hide');
+}
+
+function openStartPage() {
+    highscorePage.classList.add('hide');
+    startPage.classList.remove('hide');
+}
+
+    
 
