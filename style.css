@@ -1,0 +1,84 @@
+/* .hide {
+    display: none;
+  } */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    max-width: 1000px;
+    margin: 0 auto;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+/* Styling for Header content */
+
+h1,
+p {
+    text-align: center;
+}
+
+#timer {
+    position: absolute;
+    right: 10px;
+}
+
+/* Styling for all main content */
+main {
+    margin: 0 auto;
+    width: 60%;
+}
+
+#start-button {
+    display: block;
+    margin: 0 auto;
+}
+
+#view-scores {
+    color: #8A2BE2;
+}
+
+
+/* Styling for Buttons*/
+
+button {
+    border-radius: 12px;
+    padding: .5em;
+    color: white;
+    border: none;
+    background-color: #8A2BE2;
+}
+
+button:hover {
+    background-color: #9370DB;
+}
+
+button:focus {
+    outline: none;
+}
+
+button:active {
+    background-color: #9400D3;
+}
+
+/* Styling for answers*/
+
+li {
+    margin: 2px;
+}
+
+ul {
+    list-style: none;
+}
+
+#feedback {
+    color: grey;
+}
+
+.highscoreIniials {
+    background-color: #D8BFD8;
+    margin: 2px;
+    padding: 1px;
+}
