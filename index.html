@@ -9,8 +9,8 @@
 </head>
 <body>
     <header>
-        <a id="view-scores" href="highScores.html">View Highscores</a>
-        <span id="timer">Time: 10</span>
+        <a id="view-scores">View Highscores</a>
+        <span id="timer"></span>
     </header>
 
     <main>
@@ -24,6 +24,41 @@
             </p>
             <button id="start-button" type="button">Start Quiz!</button>
 
+        </section>
+
+        <section id="question-page" class="hide">
+            <h2 id="question">What is the airspeed velocity of an unladen swallow?</h2>
+            <ul id="answers">
+                <li>
+                    <button>1. 15 m/s</button>
+                </li>
+                <li>
+                    <button>2. 42 m/s</button>
+                </li>
+                <li>
+                    <button>2. 7 m/s</button>
+                </li>
+                <li>
+                    <button>2. 31 m/s</button>
+                </li>
+            </ul>
+            <hr>
+            <h3 id="feedback">Correct</h3>
+        </section>
+
+        <section id="initial-enter" class="hide">
+            <h2>All done!</h2>
+            <h4>Your final score is: <span id="display-score"></span></h4>
+            <input id="initial-text" type="text">
+            <button id="submit-initial">Submit</button>
+        </section>
+
+        <section id="highscore-page" class="hide">
+            <h2>Highscores</h2>
+            <div class="highscoreIniials">AJK</div>
+            <div class="highscoreIniials">AJK</div>
+            <button id="go-back">Go Back</button>
+            <button id="clear-highscores">Clear Highscores</button>
         </section>
 
     </main>
