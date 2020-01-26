@@ -12,10 +12,12 @@ let answers = document.getElementById('answers');
 let feedback = document.getElementById('feedback');
 //Initials Page
 let intitialEnter = document.getElementById('initial-enter');
+let displayScore = document.getElementById('display-score');
 let initialText = document.getElementById('initial-text');
 let submitInitial = document.getElementById('submit-initial');
 //Highscore Page
 let highscorePage = document.getElementById('highscore-page');
+let highscoreContainer = document.getElementById('highscore-container');
 let goBack = document.getElementById('go-back');
 let clearHighscores = document.getElementById('clear-highscores');
 
@@ -24,7 +26,8 @@ let pageArray = [startPage, questionPage, intitialEnter, highscorePage];
 //adds funcitonality to each button on index.html
 viewScores.addEventListener("click", openHighscorePage);
 startButton.addEventListener("click", startQuiz);
-submitInitial.addEventListener("click", openHighscorePage);
+submitInitial.addEventListener("click", addInitial);
+clearHighscores.addEventListener("click", eraseHighscores);
 goBack.addEventListener("click", openStartPage);
 
 
@@ -38,23 +41,28 @@ function hideAll() {
     }
 }
 
+function hideTimer() {
+    if (!timer.classList.contains('hide')) {
+        timer.classList.add('hide');
+    }
+}
+
 let isQuizzing = false; //Will be True when questions are on the screen
-let quizTime = 5; //quizTime is how may seconds the test will last.
+let quizTime = 50; //quizTime is how may seconds the test will last.
 let secondsLeft; //current number of seconds left on timer
 timer.textContent = "Time: " + quizTime; //Prints initial timer on screen
 let questionIndex;
+let finalScore = 0;
 
 function startQuiz() {
-
     secondsLeft = quizTime;
     isQuizzing = true;
     questionIndex = 0;
     hideAll();
     questionPage.classList.remove('hide');
 
-    questionUpdater(questionContent, questionIndex);
-
-   
+    clearQuestion();
+    questionUpdater(questionContent, questionIndex);   
 
     let timerInterval = setInterval(function() {
         
@@ -64,10 +72,10 @@ function startQuiz() {
         if (secondsLeft === 0 || !isQuizzing) {
             clearInterval(timerInterval);
             secondsLeft = quizTime;
-            timer.textContent = "Time: " + secondsLeft;
             
             
             if (isQuizzing) {
+                finalScore = 0;
                 openInitialsPage();
             }
         }
@@ -77,23 +85,44 @@ function startQuiz() {
 
 //Function to change page to respective part of index.html
 function openInitialsPage() {
+    hideTimer();
+    displayScore.textContent = finalScore;
     isQuizzing = false;
     hideAll();
     intitialEnter.classList.remove('hide');
 }
 
 function openHighscorePage() {
+    hideTimer();
     isQuizzing = false;
     hideAll();
     highscorePage.classList.remove('hide');
 }
 
+function addInitial() {
+    
+
+    let newHighscore = document.createElement('div');
+    newHighscore.textContent = finalScore + " --- " + initialText.value;
+    newHighscore.classList.add("highscoreInitials");
+    highscoreContainer.appendChild(newHighscore);
+
+    openHighscorePage();
+}
+
+function eraseHighscores() {
+    while(highscoreContainer.hasChildNodes()) {
+        highscoreContainer.removeChild(highscoreContainer.childNodes[0]);
+    }
+}
+
 function openStartPage() {
+    timer.textContent = "Time: " + secondsLeft;
+    timer.classList.remove('hide');
     isQuizzing = false;
     hideAll();
     startPage.classList.remove('hide');
 }
-
     
 let questionContent = [
     question1 = {
@@ -113,8 +142,6 @@ let questionContent = [
     }
 ]
 
-
-
 function questionUpdater(array, index) {
     question.textContent = array[index].question;
     let ans;
@@ -127,12 +154,11 @@ function questionUpdater(array, index) {
         
         ans.appendChild(but);
         but.textContent = i+1 + ". " + array[index].answerArray[i];
-        ans.addEventListener("click", questionController);
-        answers.appendChild(ans);
-        
 
+        ans.addEventListener("click", questionController);
+        
+        answers.appendChild(ans);   
     }
-    
 }
 
 function clearQuestion() {
@@ -142,13 +168,26 @@ function clearQuestion() {
     }
 }
 
-function questionController() {
+function questionController(event) {
+    
+    if (event.target.textContent.substring(3) == questionContent[questionIndex].correctAns) {
+        feedback.textContent = "Correct";
+        secondsLeft += 5;
+        
+    } else {
+        feedback.textContent = "Incorrect";
+        secondsLeft -= 5;
+    }
+    timer.textContent = "Time: " + secondsLeft;
+    setTimeout(function() {feedback.textContent = ""}, 1000);
+    
     clearQuestion();
     questionIndex++;
     if (questionIndex < questionContent.length) {
         questionUpdater(questionContent, questionIndex);
     } else {
+        finalScore = secondsLeft;
         openInitialsPage();
     }
-    
 }
+
