@@ -1,3 +1,35 @@
+let questionContent = [
+    question1 = {
+        question: "Which is not a primitive datatype in Javascript?",
+        correctAns: "Flag",
+        answerArray: ["Flag", "String", "Number", "Boolean"]
+    },
+    question2 = {
+        question: "Which HTML tag do we use to link an HTML file and a Javascript file?",
+        correctAns: "<script>",
+        answerArray: ["<link>", "<src>", "<script>", "<body>"]
+    },
+    question3 = {
+        question: "Which of these Javascripts returns a user defined string?",
+        correctAns: "prompt()",
+        answerArray: ["alert()", "prompt()", "confirm()", "console.log()"]
+    },
+    question4 = {
+        question: "Which is the correct syntax for a for loop for looping through a given array?",
+        correctAns: "for (let i = 0; i < array.length; i++) {};",
+        answerArray: ["for ( i = 0, array.length, i++) {};",
+                      "for (let i = 0, array.length; i++) {};",
+                      "for ( i = 0; i < array.length; i++) {};",
+                      "for (let i = 0; i < array.length; i++) {};",
+                    ]
+    },
+    question5 = {
+        question: "The condition in an if statement is enclosed in _____.",
+        correctAns: "()",
+        answerArray: ["{}", "[]", "()", "``"]
+    }
+]
+
 //Header
 let viewScores = document.getElementById('view-scores');
 let timer = document.getElementById('timer');
@@ -54,6 +86,16 @@ timer.textContent = "Time: " + quizTime; //Prints initial timer on screen
 let questionIndex;
 let finalScore = 0;
 
+function questionOrder(arr) {
+    let arrIndex = [];
+    for (let i=0; i<arr.length; i++) {
+        arrIndex.push(i);
+    }
+    return arrayShuffle(arrIndex);
+}
+
+let questionArrayOrder = questionOrder(questionContent);
+
 function startQuiz() {
     secondsLeft = quizTime;
     isQuizzing = true;
@@ -62,7 +104,7 @@ function startQuiz() {
     questionPage.classList.remove('hide');
 
     clearQuestion();
-    questionUpdater(questionContent, questionIndex);   
+    questionUpdater(questionContent, questionArrayOrder[questionIndex]);   
 
     let timerInterval = setInterval(function() {
         
@@ -123,37 +165,25 @@ function openStartPage() {
     hideAll();
     startPage.classList.remove('hide');
 }
-    
-let questionContent = [
-    question1 = {
-        question: "Which is not a primitive datatype in Javascript?",
-        correctAns: "Integer",
-        answerArray: ["Integer", "String", "Number", "Boolean"]
-    },
-    question2 = {
-        question: "Which HTML tag do we use to link an HTML file and a Javascript file?",
-        correctAns: "<script>",
-        answerArray: ["<link>", "<src>", "<script>", "<body>"]
-    },
-    question3 = {
-        question: "Which of these Javascripts returns a user defined string?",
-        correctAns: "prompt()",
-        answerArray: ["alert()", "prompt()", "confirm()", "console.log()"]
-    }
-]
+
+function arrayShuffle(arr) {
+    return arr.sort(() => Math.random()-0.5);
+}
 
 function questionUpdater(array, index) {
+
     question.textContent = array[index].question;
     let ans;
     let but;
+    let currentAnswerArray = arrayShuffle(array[index].answerArray);
 
-    for (let i=0; i<array[index].answerArray.length; i++) {
+    for (let i=0; i<currentAnswerArray.length; i++) {
 
         ans = document.createElement('LI');
         but = document.createElement('button');
         
         ans.appendChild(but);
-        but.textContent = i+1 + ". " + array[index].answerArray[i];
+        but.textContent = i+1 + ". " + currentAnswerArray[i];
 
         ans.addEventListener("click", questionController);
         
@@ -170,7 +200,7 @@ function clearQuestion() {
 
 function questionController(event) {
     
-    if (event.target.textContent.substring(3) == questionContent[questionIndex].correctAns) {
+    if (event.target.textContent.substring(3) == questionContent[questionArrayOrder[questionIndex]].correctAns) {
         feedback.textContent = "Correct";
         secondsLeft += 5;
         
@@ -184,7 +214,7 @@ function questionController(event) {
     clearQuestion();
     questionIndex++;
     if (questionIndex < questionContent.length) {
-        questionUpdater(questionContent, questionIndex);
+        questionUpdater(questionContent, questionArrayOrder[questionIndex]);
     } else {
         finalScore = secondsLeft;
         openInitialsPage();
