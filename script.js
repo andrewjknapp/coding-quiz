@@ -65,6 +65,7 @@ goBack.addEventListener("click", openStartPage);
 
 
 //Takes a function of all DOM pointers as an array and adds clase hide to each
+//Used in startQuiz(), openInitialsPage(), openHighscorePage(), and openStartpage()
 function hideAll() {
     for (let i=0; i<pageArray.length; i++) {
         if (!pageArray[i].classList.contains('hide')) {
@@ -73,6 +74,8 @@ function hideAll() {
     }
 }
 
+//Adds hide class to timer
+//Used in openInitialsPage() and openHighscorePage()
 function hideTimer() {
     if (!timer.classList.contains('hide')) {
         timer.classList.add('hide');
@@ -86,6 +89,8 @@ timer.textContent = "Time: " + quizTime; //Prints initial timer on screen
 let questionIndex;
 let finalScore = 0;
 
+//Outputs a randomized array including the numbers 0 to the length of an array
+//Used to randomize the order of the questions
 function questionOrder(arr) {
     let arrIndex = [];
     for (let i=0; i<arr.length; i++) {
@@ -94,8 +99,11 @@ function questionOrder(arr) {
     return arrayShuffle(arrIndex);
 }
 
+//Used in conjunction with questionUpdater() for a random order of questions
 let questionArrayOrder = questionOrder(questionContent);
 
+//Sets the timer and displays the quiz. 
+//Called by the event listener on the start button.
 function startQuiz() {
     secondsLeft = quizTime;
     isQuizzing = true;
@@ -106,6 +114,7 @@ function startQuiz() {
     clearQuestion();
     questionUpdater(questionContent, questionArrayOrder[questionIndex]);   
 
+    //Timer. If the timer runs out then the initial page is opened.
     let timerInterval = setInterval(function() {
         
         secondsLeft--;
@@ -124,7 +133,6 @@ function startQuiz() {
     }, 1000);
 }
 
-
 //Function to change page to respective part of index.html
 function openInitialsPage() {
     hideTimer();
@@ -134,6 +142,7 @@ function openInitialsPage() {
     intitialEnter.classList.remove('hide');
 }
 
+//Opens Highscore page
 function openHighscorePage() {
     hideTimer();
     isQuizzing = false;
@@ -141,9 +150,9 @@ function openHighscorePage() {
     highscorePage.classList.remove('hide');
 }
 
+// Reads text input as user initials and displays on Highscore page
+// Called by the submitInitial button
 function addInitial() {
-    
-
     let newHighscore = document.createElement('div');
     newHighscore.textContent = finalScore + " --- " + initialText.value;
     newHighscore.classList.add("highscoreInitials");
@@ -152,12 +161,15 @@ function addInitial() {
     openHighscorePage();
 }
 
+//Removes all children of #highscore-container
+//Called by the clearHighscore button
 function eraseHighscores() {
     while(highscoreContainer.hasChildNodes()) {
         highscoreContainer.removeChild(highscoreContainer.childNodes[0]);
     }
 }
 
+// Returns user to the initial page. Called by the Go Back button
 function openStartPage() {
     timer.textContent = "Time: " + secondsLeft;
     timer.classList.remove('hide');
@@ -166,6 +178,9 @@ function openStartPage() {
     startPage.classList.remove('hide');
 }
 
+// Randomizes the order of elements in an array
+// Used in questionOrder() to randomize questions and in questionUpdater() 
+// to randomize the order of answers
 function arrayShuffle(arr) {
     return arr.sort(() => Math.random()-0.5);
 }
@@ -191,6 +206,7 @@ function questionUpdater(array, index) {
     }
 }
 
+// Removes questions and answers once an answer choice is chosen.
 function clearQuestion() {
     question.textContent = "";
     while(answers.hasChildNodes()) {
@@ -198,6 +214,9 @@ function clearQuestion() {
     }
 }
 
+//Determines and displays if answer is correct or false
+// If there are more questions it calles questionUpdater() for the next question
+// and calls openInitialsPage() if there are no more questions
 function questionController(event) {
     
     if (event.target.textContent.substring(3) == questionContent[questionArrayOrder[questionIndex]].correctAns) {
