@@ -30,6 +30,9 @@ let questionContent = [
     }
 ]
 
+//This will store each highscorer and their score
+let highScorers = [];
+
 //Header
 let viewScores = document.getElementById('view-scores');
 let timer = document.getElementById('timer');
@@ -58,8 +61,8 @@ let pageArray = [startPage, questionPage, intitialEnter, highscorePage];
 //adds funcitonality to each button on index.html
 viewScores.addEventListener("click", openHighscorePage);
 startButton.addEventListener("click", startQuiz);
-submitInitial.addEventListener("click", addInitial);
-clearHighscores.addEventListener("click", eraseHighscores);
+submitInitial.addEventListener("click", organizeHighscores);
+clearHighscores.addEventListener("click", clearHighScorers);
 goBack.addEventListener("click", openStartPage);
 
 
@@ -150,15 +153,28 @@ function openHighscorePage() {
     highscorePage.classList.remove('hide');
 }
 
+function organizeHighscores() {
+    highScorers.push([finalScore, initialText.value]);
+
+    highScorers.sort((a, b) => b[0] - a[0] );
+
+    eraseHighscores();
+    for (let i=0; i<highScorers.length; i++) {
+        addInitial(highScorers[i]);
+    }
+
+    openHighscorePage();
+}
+
 // Reads text input as user initials and displays on Highscore page
 // Called by the submitInitial button
-function addInitial() {
+function addInitial(index) {
+
     let newHighscore = document.createElement('div');
-    newHighscore.textContent = finalScore + " --- " + initialText.value;
+    newHighscore.textContent = index[0] + " --- " + index[1];
     newHighscore.classList.add("highscoreInitials");
     highscoreContainer.appendChild(newHighscore);
 
-    openHighscorePage();
 }
 
 //Removes all children of #highscore-container
@@ -167,6 +183,11 @@ function eraseHighscores() {
     while(highscoreContainer.hasChildNodes()) {
         highscoreContainer.removeChild(highscoreContainer.childNodes[0]);
     }
+}
+
+function clearHighScorers() {
+    eraseHighscores();
+    highScorers = [];
 }
 
 // Returns user to the initial page. Called by the Go Back button
@@ -239,4 +260,5 @@ function questionController(event) {
         openInitialsPage();
     }
 }
+
 
