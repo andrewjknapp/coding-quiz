@@ -123,7 +123,7 @@ function startQuiz() {
         secondsLeft--;
         timer.textContent = "Time: " + secondsLeft;
 
-        if (secondsLeft === 0 || !isQuizzing) {
+        if (secondsLeft < 0 || !isQuizzing) {
             clearInterval(timerInterval);
             secondsLeft = quizTime;
             
@@ -139,6 +139,9 @@ function startQuiz() {
 //Function to change page to respective part of index.html
 function openInitialsPage() {
     hideTimer();
+    if(finalScore < 1) {
+        finalScore = 0;
+    }
     displayScore.textContent = finalScore;
     isQuizzing = false;
     hideAll();
