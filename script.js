@@ -58,6 +58,7 @@ let feedback = document.getElementById('feedback');
 //Initials Page
 let intitialEnter = document.getElementById('initial-enter');
 let displayScore = document.getElementById('display-score');
+let displayPercent = document.getElementById('display-percentage');
 let initialText = document.getElementById('initial-text');
 let submitInitial = document.getElementById('submit-initial');
 //Highscore Page
@@ -101,6 +102,8 @@ let secondsLeft; //current number of seconds left on timer
 timer.textContent = "Time: " + quizTime; //Prints initial timer on screen
 let questionIndex;
 let finalScore = 0;
+let numberCorrect;
+let numberIncorrect;
 
 //Outputs a randomized array including the numbers 0 to the length of an array
 //Used to randomize the order of the questions
@@ -118,8 +121,10 @@ let questionArrayOrder;
 //Sets the timer and displays the quiz. 
 //Called by the event listener on the start button.
 function startQuiz() {
+    numberCorrect = 0;
+    numberIncorrect = 0;
     questionArrayOrder = questionOrder(questionContent);
-    alert(questionArrayOrder);
+    
     secondsLeft = quizTime;
     isQuizzing = true;
     questionIndex = 0;
@@ -155,6 +160,7 @@ function openInitialsPage() {
         finalScore = 0;
     }
     displayScore.textContent = finalScore;
+    displayPercent.textContent = ((numberCorrect/(numberCorrect+numberIncorrect))*100) + '%';
     isQuizzing = false;
     hideAll();
     intitialEnter.classList.remove('hide');
@@ -258,10 +264,12 @@ function questionController(event) {
     if (event.target.textContent.substring(3) == questionContent[questionArrayOrder[questionIndex]].correctAns) {
         feedback.textContent = "Correct";
         secondsLeft += 5;
+        numberCorrect++;
         
     } else {
         feedback.textContent = "Incorrect";
         secondsLeft -= 5;
+        numberIncorrect++;
     }
     timer.textContent = "Time: " + secondsLeft;
     setTimeout(function() {feedback.textContent = ""}, 1000);
