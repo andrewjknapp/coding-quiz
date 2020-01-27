@@ -27,6 +27,16 @@ let questionContent = [
         question: "The condition in an if statement is enclosed in _____.",
         correctAns: "()",
         answerArray: ["{}", "[]", "()", "``"]
+    },
+    question6 = {
+        question: "Which method removes an element from the end of an array?",
+        correctAns: ".pop()",
+        answerArray: [".pop()", ".push()", ".shift()", ".unshift()"]
+    },
+    question7 = {
+        question: "Which method adds an element to the front of an array?",
+        correctAns: ".shift()",
+        answerArray: [".pop()", ".push()", ".shift()", ".unshift()"]
     }
 ]
 
@@ -103,11 +113,13 @@ function questionOrder(arr) {
 }
 
 //Used in conjunction with questionUpdater() for a random order of questions
-let questionArrayOrder = questionOrder(questionContent);
+let questionArrayOrder;
 
 //Sets the timer and displays the quiz. 
 //Called by the event listener on the start button.
 function startQuiz() {
+    questionArrayOrder = questionOrder(questionContent);
+    alert(questionArrayOrder);
     secondsLeft = quizTime;
     isQuizzing = true;
     questionIndex = 0;
